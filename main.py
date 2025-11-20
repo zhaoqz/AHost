@@ -5,6 +5,9 @@ from src.utils.logger import logger
 
 app = FastAPI(title="AI-App Host Platform")
 
+# Ensure static directory exists
+Path("static").mkdir(exist_ok=True)
+
 # Mount static files for the platform itself (css, js)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

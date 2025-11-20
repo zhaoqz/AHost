@@ -12,7 +12,7 @@ COPY . .
 RUN uv sync --frozen
 
 # Create data directories
-RUN mkdir -p data/sites data/db logs
+RUN mkdir -p data/sites data/db logs static
 
 # Expose port
 EXPOSE 8000

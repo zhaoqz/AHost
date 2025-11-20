@@ -75,6 +75,10 @@
    - 配置文件 `config.json` 已挂载到容器外部。
    - 直接修改项目根目录下的 `config.json` 文件。
    - 修改后重启容器生效: `docker-compose restart`。
+5. **修改端口**:
+   - 如果宿主机 8000 端口被占用，修改 `docker-compose.yml` 中的 `ports` 映射。
+   - 例如将 `"8000:8000"` 改为 `"8080:8000"` (宿主机端口:容器端口)。
+   - 重启容器: `docker-compose up -d`。此时访问地址变为 `http://localhost:8080`。
 
 ### 宝塔面板 (BT Panel) 部署
 参考 [宝塔 Python 项目管理器 2.0 使用教程](https://www.bt.cn/bbs/thread-144409-1-1.html)。
