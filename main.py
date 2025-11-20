@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 from src.routes import admin, showcase, serve
 from src.utils.logger import logger
 
