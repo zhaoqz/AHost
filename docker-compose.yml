@@ -1,0 +1,11 @@
+services:
+  ahost:
+    build: .
+    container_name: ahost
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config.json:/app/config.json
+    restart: always

@@ -62,6 +62,42 @@
 - **数据库**: SQLite 文件位于 `data/db/app.db`。
 - **日志**: 运行日志位于 `logs/app.log`。
 
+## 5. 高级部署 (Advanced Deployment)
+
+### Docker 部署
+1. **构建并启动**:
+   ```bash
+   docker-compose up -d --build
+   ```
+2. **访问**: `http://localhost:8000`
+3. **数据持久化**: 数据存储在 `./data` 目录，日志在 `./logs`。
+
+### 宝塔面板 (BT Panel) 部署
+参考 [宝塔 Python 项目管理器 2.0 使用教程](https://www.bt.cn/bbs/thread-144409-1-1.html)。
+
+1. **准备代码**:
+   - 将项目上传至服务器 (如 `/www/wwwroot/AHost`)。
+   - 确保根目录下有 `requirements.txt` (已生成)。
+
+2. **安装 Python 项目管理器**:
+   - 在宝塔软件商店安装 "Python项目管理器 2.0"。
+
+3. **添加项目**:
+   - **版本**: 选择 Python 3.12+ (如果没有请先在版本管理中安装)。
+   - **框架**: 选择 `FastAPI` 或 `自定义`。
+   - **启动方式**: `自定义启动命令`。
+   - **启动命令**: 
+     ```bash
+     /www/wwwroot/AHost/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+     ```
+     *(注意: 宝塔会自动创建 venv，请根据实际路径调整)*
+   - **端口**: `8000`。
+   - **勾选**: "安装模块依赖" (它会自动读取 requirements.txt)。
+
+4. **配置 Nginx (可选)**:
+   - 如果需要域名访问，在项目设置中添加映射，或手动配置 Nginx 反向代理到 8000 端口。
+
 ### 常见问题
 - **依赖安装失败**: 确保使用 `uv` 并正确引用带括号的包名，如 `uv add "qrcode[pil]"`。
 - **端口冲突**: 在 `main.py` 中修改 `port=8000` 为其他端口。
+
