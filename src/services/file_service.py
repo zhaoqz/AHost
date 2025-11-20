@@ -11,7 +11,7 @@ import time
 
 class FileService:
     @staticmethod
-    async def save_upload(file: UploadFile, slug: str):
+    async def save_upload(slug: str, file: UploadFile = None, html_content: str = None):
         upload_dir = config.upload_dir / slug
         
         # Backup existing directory if it exists
@@ -28,13 +28,18 @@ class FileService:
         upload_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            filename = file.filename.lower()
-            if filename.endswith('.zip'):
-                await FileService._handle_zip(file, upload_dir)
-            elif filename.endswith('.html') or filename.endswith('.htm'):
-                await FileService._handle_html(file, upload_dir)
+            if html_content:
+                await FileService._handle_html_content(html_content, upload_dir)
+            elif file:
+                filename = file.filename.lower()
+                if filename.endswith('.zip'):
+                    await FileService._handle_zip(file, upload_dir)
+                elif filename.endswith('.html') or filename.endswith('.htm'):
+                    await FileService._handle_html(file, upload_dir)
+                else:
+                    raise HTTPException(status_code=400, detail="Only .zip and .html files are supported")
             else:
-                raise HTTPException(status_code=400, detail="Only .zip and .html files are supported")
+                raise HTTPException(status_code=400, detail="No file or HTML content provided")
             
             logger.info(f"Successfully saved upload for slug: {slug}")
         except Exception as e:
@@ -43,6 +48,12 @@ class FileService:
                 shutil.rmtree(upload_dir)
             logger.error(f"Failed to save upload for slug {slug}: {str(e)}")
             raise HTTPException(status_code=500, detail=f"Failed to process file: {str(e)}")
+
+    @staticmethod
+    async def _handle_html_content(content: str, upload_dir: Path):
+        file_path = upload_dir / "index.html"
+        async with aiofiles.open(file_path, 'w', encoding='utf-8') as out_file:
+            await out_file.write(content)
 
     @staticmethod
     async def _handle_html(file: UploadFile, upload_dir: Path):

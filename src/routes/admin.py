@@ -26,10 +26,14 @@ async def upload_app(
     slug: str = Form(None),
     author: str = Form(...),
     password: str = Form(...),
-    file: UploadFile = File(...)
+    file: UploadFile = File(None),
+    html_content: str = Form(None)
 ):
     if password != config.upload_password:
         raise HTTPException(status_code=401, detail="Invalid password")
+
+    if not file and not html_content:
+        raise HTTPException(status_code=400, detail="Either file or HTML content must be provided")
 
     if not slug:
         slug = generate_slug()
@@ -39,7 +43,7 @@ async def upload_app(
 
     try:
         # Save file (will backup if exists)
-        await FileService.save_upload(file, slug)
+        await FileService.save_upload(slug=slug, file=file, html_content=html_content)
         
         if existing_app:
             # Update existing app

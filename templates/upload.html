@@ -41,7 +41,22 @@
             </div>
         </div>
 
-        <div>
+        <!-- Upload Method Tabs -->
+        <div class="border-b border-gray-200 mb-4">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button type="button" id="tab-file" onclick="switchTab('file')"
+                    class="border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-1/2 text-center">
+                    上传文件 (Upload File)
+                </button>
+                <button type="button" id="tab-paste" onclick="switchTab('paste')"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-1/2 text-center">
+                    粘贴代码 (Paste Code)
+                </button>
+            </nav>
+        </div>
+
+        <!-- File Upload Section -->
+        <div id="section-file">
             <label class="block text-sm font-medium text-gray-700 mb-1">上传文件 (.zip 或 .html)</label>
             <div
                 class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-500 transition cursor-pointer bg-white/50 relative">
@@ -62,11 +77,59 @@
                     <p class="text-xs text-gray-500">支持 ZIP 或 HTML (最大 10MB)</p>
                     <p id="file-name" class="text-sm text-indigo-600 font-medium mt-2"></p>
                 </div>
-                <input type="file" name="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    accept=".zip,.html,.htm" required
+                <input type="file" name="file" id="input-file"
+                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".zip,.html,.htm" required
                     onchange="document.getElementById('file-name').textContent = this.files[0].name">
             </div>
         </div>
+
+        <!-- Paste Code Section -->
+        <div id="section-paste" class="hidden">
+            <label class="block text-sm font-medium text-gray-700 mb-1">粘贴 HTML 代码</label>
+            <textarea name="html_content" id="input-html" rows="10"
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition font-mono text-sm"
+                placeholder="<!DOCTYPE html>..."></textarea>
+        </div>
+
+        <script>
+            function switchTab(tab) {
+                const tabFile = document.getElementById('tab-file');
+                const tabPaste = document.getElementById('tab-paste');
+                const sectionFile = document.getElementById('section-file');
+                const sectionPaste = document.getElementById('section-paste');
+                const inputFile = document.getElementById('input-file');
+                const inputHtml = document.getElementById('input-html');
+
+                if (tab === 'file') {
+                    // Show File, Hide Paste
+                    tabFile.classList.add('border-indigo-500', 'text-indigo-600');
+                    tabFile.classList.remove('border-transparent', 'text-gray-500');
+                    tabPaste.classList.add('border-transparent', 'text-gray-500');
+                    tabPaste.classList.remove('border-indigo-500', 'text-indigo-600');
+
+                    sectionFile.classList.remove('hidden');
+                    sectionPaste.classList.add('hidden');
+
+                    inputFile.required = true;
+                    inputHtml.required = false;
+                    inputHtml.value = ''; // Clear paste content
+                } else {
+                    // Show Paste, Hide File
+                    tabPaste.classList.add('border-indigo-500', 'text-indigo-600');
+                    tabPaste.classList.remove('border-transparent', 'text-gray-500');
+                    tabFile.classList.add('border-transparent', 'text-gray-500');
+                    tabFile.classList.remove('border-indigo-500', 'text-indigo-600');
+
+                    sectionPaste.classList.remove('hidden');
+                    sectionFile.classList.add('hidden');
+
+                    inputHtml.required = true;
+                    inputFile.required = false;
+                    inputFile.value = ''; // Clear file selection
+                    document.getElementById('file-name').textContent = '';
+                }
+            }
+        </script>
 
         <button type="submit"
             class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition transform hover:scale-[1.02]">
