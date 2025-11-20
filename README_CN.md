@@ -71,6 +71,10 @@
    ```
 2. **访问**: `http://localhost:8000`
 3. **数据持久化**: 数据存储在 `./data` 目录，日志在 `./logs`。
+4. **修改配置**: 
+   - 配置文件 `config.json` 已挂载到容器外部。
+   - 直接修改项目根目录下的 `config.json` 文件。
+   - 修改后重启容器生效: `docker-compose restart`。
 
 ### 宝塔面板 (BT Panel) 部署
 参考 [宝塔 Python 项目管理器 2.0 使用教程](https://www.bt.cn/bbs/thread-144409-1-1.html)。
