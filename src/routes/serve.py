@@ -32,4 +32,8 @@ async def serve_app_file(slug: str, path: str):
 
 @router.get("/{slug}")
 async def serve_app_root(slug: str):
-    return await serve_app_file(slug, "")
+    # Increment view count
+    db.increment_view_count(slug)
+    
+    # Serve index.html
+    return await serve_app_file(slug, "index.html")

@@ -30,6 +30,17 @@ class Database:
                 author TEXT
             )
         """)
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                app_slug TEXT NOT NULL,
+                content TEXT NOT NULL,
+                author TEXT DEFAULT 'Anonymous',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY(app_slug) REFERENCES apps(slug)
+            )
+        """)
         
         # Check if author column exists (for migration)
         cursor.execute("PRAGMA table_info(apps)")
@@ -90,6 +101,24 @@ class Database:
         conn = self._get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM apps ORDER BY created_at DESC")
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(row) for row in rows]
+
+    def add_comment(self, slug: str, content: str, author: str = "Anonymous"):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO comments (app_slug, content, author, created_at) VALUES (?, ?, ?, ?)",
+            (slug, content, author, datetime.now())
+        )
+        conn.commit()
+        conn.close()
+
+    def get_comments(self, slug: str) -> List[Dict[str, Any]]:
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM comments WHERE app_slug = ? ORDER BY created_at DESC", (slug,))
         rows = cursor.fetchall()
         conn.close()
         return [dict(row) for row in rows]
