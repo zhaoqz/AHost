@@ -1,0 +1,7 @@
+{
+    "BASE_URL": "http://127.0.0.1:8000",
+    "UPLOAD_DIR": "data/sites",
+    "DB_PATH": "data/db/app.db",
+    "LOG_LEVEL": "INFO",
+    "UPLOAD_PASSWORD": "admin"
+}
