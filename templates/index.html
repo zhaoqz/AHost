@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}AI-App Host - 发现应用{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
+            发现精彩 <span class="text-indigo-600">AI 应用</span>
+        </h1>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            探索由社区创建的各种 AI 生成应用，或者托管您自己的作品。
+        </p>
+        <a href="/upload"
+            class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 transition transform hover:-translate-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            上传应用 (Upload App)
+        </a>
+    </div>
+
+    <!-- App Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for app in apps %}
+        <a href="/{{ app.slug }}" target="_blank" class="group block">
+            <div
+                class="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-white/50">
+                <div class="p-6 flex-1 flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition">{{ app.name
+                            }}</h2>
+                        <span
+                            class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center">
+                            <span class="mr-1">👁️</span> {{ app.view_count }}
+                        </span>
+                    </div>
+
+                    <p class="text-gray-600 mb-4 line-clamp-3 flex-1">
+                        {{ app.description or "暂无描述。" }}
+                    </p>
+
+                    <div
+                        class="flex items-center justify-between text-sm text-gray-500 mt-auto pt-4 border-t border-gray-100">
+                        <div class="flex items-center">
+                            <span class="mr-1">👤</span>
+                            <span class="font-medium truncate max-w-[100px]">{{ app.author or "Unknown" }}</span>
+                        </div>
+                        <span>{{ app.created_at[:10] }}</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-indigo-50 px-6 py-3 flex justify-between items-center group-hover:bg-indigo-600 transition duration-300">
+                    <span class="text-indigo-600 font-medium group-hover:text-white transition">立即体验</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-indigo-600 group-hover:text-white transition transform group-hover:translate-x-1"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        {% else %}
+        <div class="col-span-full text-center py-12">
+            <p class="text-gray-500 text-xl">还没有应用上传，快来做第一个吧！</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

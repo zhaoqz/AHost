@@ -97,10 +97,16 @@ class Database:
         conn.commit()
         conn.close()
 
-    def list_apps(self) -> List[Dict[str, Any]]:
+    def list_apps(self, sort_by: str = "views") -> List[Dict[str, Any]]:
         conn = self._get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM apps ORDER BY created_at DESC")
+        
+        if sort_by == "views":
+            order_by = "view_count DESC, created_at DESC"
+        else:
+            order_by = "created_at DESC"
+            
+        cursor.execute(f"SELECT * FROM apps ORDER BY {order_by}")
         rows = cursor.fetchall()
         conn.close()
         return [dict(row) for row in rows]

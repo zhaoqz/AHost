@@ -13,7 +13,12 @@ templates = Jinja2Templates(directory="templates")
 def generate_slug(length=6):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
 
-@router.get("/")
+@router.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    apps = db.list_apps(sort_by="views")
+    return templates.TemplateResponse("index.html", {"request": request, "apps": apps})
+
+@router.get("/upload", response_class=HTMLResponse)
 async def upload_page(request: Request):
     return templates.TemplateResponse("upload.html", {"request": request})
 
