@@ -30,47 +30,49 @@
     <!-- App Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for app in apps %}
-        <a href="/{{ app.slug }}" target="_blank" class="group block">
+        <div class="group relative">
             <div
                 class="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-white/50">
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="flex justify-between items-start mb-4">
-                        <h2 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition">{{ app.name
-                            }}</h2>
-                        <span
-                            class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center">
-                            <span class="mr-1">👁️</span> {{ app.view_count }}
-                        </span>
-                    </div>
+                <!-- Share Button (Top Right) -->
+                <button data-name="{{ app.name }}" data-desc="{{ app.description or '暂无描述' }}"
+                    data-author="{{ app.author or 'Unknown' }}" data-slug="{{ app.slug }}"
+                    onclick="generateShareCard(this.dataset.name, this.dataset.desc, this.dataset.author, this.dataset.slug)"
+                    class="absolute top-4 right-4 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-indigo-600 hover:text-white transition shadow-sm opacity-0 group-hover:opacity-100"
+                    title="生成分享卡片">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </button>
 
-                    <p class="text-gray-600 mb-4 line-clamp-3 flex-1">
-                        {{ app.description or "暂无描述。" }}
-                    </p>
-
-                    <div
-                        class="flex items-center justify-between text-sm text-gray-500 mt-auto pt-4 border-t border-gray-100">
-                        <div class="flex items-center">
-                            <span class="mr-1">👤</span>
-                            <span class="font-medium truncate max-w-[100px]">{{ app.author or "Unknown" }}</span>
+                <a href="/{{ app.slug }}" target="_blank" class="flex-1 flex flex-col block">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition pr-8">{{
+                                app.name }}</h2>
+                            <span
+                                class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center">
+                                <span class="mr-1">👁️</span> {{ app.view_count }}
+                            </span>
                         </div>
-                        <span>{{ app.created_at[:10] }}</span>
+
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-1">
+                            {{ app.description or "暂无描述。" }}
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between text-sm text-gray-500 mt-auto pt-4 border-t border-gray-100">
+                            <div class="flex items-center">
+                                <span class="mr-1">👤</span>
+                                <span class="font-medium truncate max-w-[100px]">{{ app.author or "Unknown" }}</span>
+                            </div>
+                            <span>{{ app.created_at[:10] }}</span>
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="bg-indigo-50 px-6 py-3 flex justify-between items-center group-hover:bg-indigo-600 transition duration-300">
-                    <span class="text-indigo-600 font-medium group-hover:text-white transition">立即体验</span>
-                    <div class="flex items-center space-x-2">
-                        <button data-name="{{ app.name }}" data-desc="{{ app.description or '暂无描述' }}"
-                            data-author="{{ app.author or 'Unknown' }}" data-slug="{{ app.slug }}"
-                            onclick="event.preventDefault(); generateShareCard(this.dataset.name, this.dataset.desc, this.dataset.author, this.dataset.slug)"
-                            class="p-1 rounded-full hover:bg-white/20 text-indigo-600 group-hover:text-white transition"
-                            title="生成分享卡片">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </button>
+                    <div
+                        class="bg-indigo-50 px-6 py-3 flex justify-between items-center group-hover:bg-indigo-600 transition duration-300">
+                        <span class="text-indigo-600 font-medium group-hover:text-white transition">立即体验</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5 text-indigo-600 group-hover:text-white transition transform group-hover:translate-x-1"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,14 +80,19 @@
                                 d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </div>
-                </div>
+                </a>
             </div>
-        </a>
+        </div>
         {% else %}
         <div class="col-span-full text-center py-12">
             <p class="text-gray-500 text-xl">还没有应用上传，快来做第一个吧！</p>
         </div>
         {% endfor %}
+    </div>
+
+    <!-- Footer Link -->
+    <div class="mt-16 text-center border-t border-gray-200 pt-8">
+        <a href="/admin" class="text-gray-400 hover:text-indigo-600 text-sm transition">Admin Access</a>
     </div>
 </div>
 {% endblock %}
