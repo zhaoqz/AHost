@@ -114,7 +114,7 @@
 <!-- Hidden Share Card Template -->
 <div id="share-card-container" class="fixed -left-[9999px] top-0">
     <div id="share-card"
-        class="w-[400px] h-[600px] bg-gradient-to-br from-slate-800 to-indigo-900 p-8 flex flex-col relative overflow-hidden text-white font-sans">
+        class="w-[400px] h-[600px] bg-gradient-to-br from-slate-800 to-indigo-900 p-6 flex flex-col relative overflow-hidden text-white font-sans">
         <!-- Background Patterns -->
         <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-indigo-500 opacity-20 rounded-full blur-3xl">
         </div>
@@ -122,31 +122,32 @@
         </div>
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-10 relative z-10">
+        <div class="flex items-center justify-between mb-6 relative z-10">
             <div class="flex items-center space-x-3">
                 <div
                     class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20">
                     <span class="text-white font-bold text-xl">A</span>
                 </div>
-                <span class="font-bold text-lg tracking-wide opacity-90">AI-App Host</span>
+                <span class="font-bold text-lg tracking-wide opacity-90">AI 应用平台</span>
             </div>
             <span id="card-domain-top" class="text-white/40 text-sm font-medium tracking-wider"></span>
         </div>
 
         <!-- Content -->
-        <div class="flex-1 flex flex-col justify-center items-center text-center z-10 px-4">
+        <div class="flex-1 flex flex-col justify-center items-center text-center z-10 px-2">
             <div
-                class="w-28 h-28 bg-gradient-to-tr from-white/10 to-white/5 backdrop-blur-xl rounded-3xl flex items-center justify-center mb-8 shadow-2xl border border-white/10">
+                class="w-24 h-24 bg-gradient-to-tr from-white/10 to-white/5 backdrop-blur-xl rounded-3xl flex items-center justify-center mb-6 shadow-2xl border border-white/10">
                 <span class="text-5xl filter drop-shadow-lg">🚀</span>
             </div>
 
             <h2 id="card-app-name"
-                class="text-3xl font-bold mb-6 leading-tight tracking-tight text-white drop-shadow-md">App Name</h2>
+                class="text-3xl font-bold mb-4 leading-tight tracking-tight text-white drop-shadow-md line-clamp-2">App
+                Name</h2>
 
-            <div class="relative">
+            <div class="relative w-full">
                 <div class="absolute -inset-4 bg-white/5 blur-xl rounded-full opacity-0"></div>
                 <p id="card-app-desc"
-                    class="relative text-white/80 text-base leading-relaxed mb-8 line-clamp-4 font-light tracking-wide">
+                    class="relative text-white/80 text-base leading-relaxed mb-6 line-clamp-4 font-light tracking-wide">
                     App Description goes here...
                 </p>
             </div>
@@ -159,9 +160,8 @@
         </div>
 
         <!-- Footer -->
-        <div class="mt-auto pt-8 border-t border-white/10 flex justify-between items-end relative z-10">
+        <div class="mt-auto pt-6 border-t border-white/10 flex justify-between items-end relative z-10">
             <div class="text-left">
-                <p class="text-[10px] text-indigo-200/60 uppercase tracking-[0.2em] mb-2">Scan to Experience</p>
                 <p class="text-sm text-white/90 font-medium tracking-wide flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
                     扫码立即体验
