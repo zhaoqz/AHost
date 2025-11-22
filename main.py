@@ -13,12 +13,12 @@ Path("static").mkdir(exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Include routers
+from src.routes import management
+app.include_router(management.router)
+
 app.include_router(admin.router)
 app.include_router(showcase.router)
 app.include_router(serve.router)
-
-from src.routes import management
-app.include_router(management.router)
 
 logger.info("Application started")
 

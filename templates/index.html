@@ -7,7 +7,21 @@
 {% block title %}AI-App Host - 发现应用{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-12">
+<div class="container mx-auto px-4 py-12 relative">
+    <!-- Admin Link (Top Right) -->
+    <div class="absolute top-0 right-0 mt-4 mr-4">
+        <a href="/admin" class="text-gray-400 hover:text-indigo-600 text-sm font-medium transition flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            管理
+        </a>
+    </div>
+
     <!-- Hero Section -->
     <div class="text-center mb-16">
         <h1 class="text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
@@ -37,7 +51,7 @@
                 <button data-name="{{ app.name }}" data-desc="{{ app.description or '暂无描述' }}"
                     data-author="{{ app.author or 'Unknown' }}" data-slug="{{ app.slug }}"
                     onclick="generateShareCard(this.dataset.name, this.dataset.desc, this.dataset.author, this.dataset.slug)"
-                    class="absolute top-4 right-4 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-indigo-600 hover:text-white transition shadow-sm opacity-0 group-hover:opacity-100"
+                    class="absolute top-4 right-4 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-indigo-600 hover:text-white transition shadow-sm"
                     title="生成分享卡片">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -46,15 +60,11 @@
                     </svg>
                 </button>
 
-                <a href="/{{ app.slug }}" target="_blank" class="flex-1 flex flex-col block">
+                <a href="/{{ app.slug }}" target="_blank" class="flex-1 flex flex-col block relative z-10">
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition pr-8">{{
+                            <h2 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition pr-12">{{
                                 app.name }}</h2>
-                            <span
-                                class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center">
-                                <span class="mr-1">👁️</span> {{ app.view_count }}
-                            </span>
                         </div>
 
                         <p class="text-gray-600 mb-4 line-clamp-3 flex-1">
@@ -67,7 +77,13 @@
                                 <span class="mr-1">👤</span>
                                 <span class="font-medium truncate max-w-[100px]">{{ app.author or "Unknown" }}</span>
                             </div>
-                            <span>{{ app.created_at[:10] }}</span>
+                            <div class="flex items-center space-x-4">
+                                <span
+                                    class="flex items-center bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">
+                                    <span class="mr-1">👁️</span> {{ app.view_count }}
+                                </span>
+                                <span>{{ app.created_at[:10] }}</span>
+                            </div>
                         </div>
                     </div>
                     <div
