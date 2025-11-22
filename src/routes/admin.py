@@ -24,6 +24,20 @@ async def upload_page(request: Request):
 
 from src.config import config
 
+@router.get("/api/check_app")
+async def check_app(name: str):
+    app = db.get_app_by_name(name)
+    if app:
+        return {
+            "found": True,
+            "name": app["name"],
+            "author": app["author"],
+            "description": app["description"],
+            "slug": app["slug"]
+        }
+    return {"found": False}
+
+
 @router.post("/api/upload")
 async def upload_app(
     name: str = Form(...),

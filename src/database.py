@@ -90,6 +90,16 @@ class Database:
             return dict(row)
         return None
 
+    def get_app_by_name(self, name: str) -> Optional[Dict[str, Any]]:
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM apps WHERE name = ?", (name,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return dict(row)
+        return None
+
     def increment_view_count(self, slug: str):
         conn = self._get_connection()
         cursor = conn.cursor()

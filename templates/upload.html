@@ -9,13 +9,14 @@
     <form action="/api/upload" method="post" enctype="multipart/form-data" class="space-y-4">
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">应用名称 (App Name)</label>
-            <input type="text" name="name" required
+            <input type="text" name="name" id="input-name" required
                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
+            <p id="found-msg" class="text-xs text-green-600 mt-1 hidden">✨ 已发现现有应用，自动加载信息</p>
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">作者 (Author)</label>
-            <input type="text" name="author" required
+            <input type="text" name="author" id="input-author" required
                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
         </div>
 
@@ -27,7 +28,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">应用描述 (可选)</label>
-            <textarea name="description" rows="3"
+            <textarea name="description" id="input-description" rows="3"
                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"></textarea>
         </div>
 
@@ -36,7 +37,7 @@
             <div class="flex">
                 <span
                     class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">/</span>
-                <input type="text" name="slug" placeholder="my-app"
+                <input type="text" name="slug" id="input-slug" placeholder="my-app"
                     class="w-full px-4 py-2 rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
             </div>
         </div>
@@ -129,6 +130,51 @@
                     document.getElementById('file-name').textContent = '';
                 }
             }
+
+            // Auto-fill logic
+            const nameInput = document.getElementById('input-name');
+            const authorInput = document.getElementById('input-author');
+            const descInput = document.getElementById('input-description');
+            const slugInput = document.getElementById('input-slug');
+            const foundMsg = document.getElementById('found-msg');
+            let debounceTimer;
+
+            nameInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                const name = e.target.value.trim();
+
+                if (!name) {
+                    foundMsg.classList.add('hidden');
+                    return;
+                }
+
+                debounceTimer = setTimeout(async () => {
+                    try {
+                        const response = await fetch(`/api/check_app?name=${encodeURIComponent(name)}`);
+                        const data = await response.json();
+
+                        if (data.found) {
+                            // Auto-fill fields
+                            authorInput.value = data.author || '';
+                            descInput.value = data.description || '';
+                            slugInput.value = data.slug || '';
+
+                            // Show message
+                            foundMsg.classList.remove('hidden');
+
+                            // Visual feedback
+                            [authorInput, descInput, slugInput].forEach(el => {
+                                el.classList.add('bg-green-50');
+                                setTimeout(() => el.classList.remove('bg-green-50'), 1000);
+                            });
+                        } else {
+                            foundMsg.classList.add('hidden');
+                        }
+                    } catch (err) {
+                        console.error('Failed to check app:', err);
+                    }
+                }, 500); // 500ms debounce
+            });
         </script>
 
         <button type="submit"
