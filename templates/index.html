@@ -50,8 +50,8 @@
                 <!-- Share Button (Top Right) -->
                 <button data-name="{{ app.name }}" data-desc="{{ app.description or '暂无描述' }}"
                     data-author="{{ app.author or 'Unknown' }}" data-slug="{{ app.slug }}"
-                    onclick="generateShareCard(this.dataset.name, this.dataset.desc, this.dataset.author, this.dataset.slug)"
-                    class="absolute top-4 right-4 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-indigo-600 hover:text-white transition shadow-sm"
+                    onclick="event.preventDefault(); event.stopPropagation(); generateShareCard(this.dataset.name, this.dataset.desc, this.dataset.author, this.dataset.slug)"
+                    class="absolute top-4 right-4 z-50 p-2 bg-white/80 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-indigo-600 hover:text-white transition shadow-sm cursor-pointer"
                     title="生成分享卡片">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -106,10 +106,7 @@
         {% endfor %}
     </div>
 
-    <!-- Footer Link -->
-    <div class="mt-16 text-center border-t border-gray-200 pt-8">
-        <a href="/admin" class="text-gray-400 hover:text-indigo-600 text-sm transition">Admin Access</a>
-    </div>
+</div>
 </div>
 {% endblock %}
 

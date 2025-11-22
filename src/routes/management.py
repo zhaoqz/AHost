@@ -9,6 +9,7 @@ router = APIRouter(prefix="/admin")
 templates = Jinja2Templates(directory="templates")
 
 @router.get("/", response_class=HTMLResponse)
+@router.get("", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("admin/login.html", {"request": request})
 
