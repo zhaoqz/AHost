@@ -86,17 +86,33 @@
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="bg-indigo-50 px-6 py-3 flex justify-between items-center group-hover:bg-indigo-600 transition duration-300">
-                        <span class="text-indigo-600 font-medium group-hover:text-white transition">立即体验</span>
+                </a>
+
+                <!-- Split Footer -->
+                <div class="flex border-t border-gray-100 relative z-20">
+                    <!-- Left: Info (1/4) -->
+                    <a href="/i/{{ app.slug }}"
+                        class="w-1/4 flex items-center justify-center bg-gray-50 hover:bg-gray-200 transition duration-300 border-r border-gray-200"
+                        title="应用详情">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </a>
+
+                    <!-- Right: Launch (3/4) -->
+                    <a href="/{{ app.slug }}" target="_blank"
+                        class="w-3/4 flex items-center justify-center py-3 bg-indigo-50 hover:bg-indigo-600 transition duration-300 group/btn">
+                        <span class="text-indigo-600 font-medium group-hover/btn:text-white transition mr-2">立即体验</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-indigo-600 group-hover:text-white transition transform group-hover:translate-x-1"
+                            class="h-5 w-5 text-indigo-600 group-hover/btn:text-white transition transform group-hover/btn:translate-x-1"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         </div>
         {% else %}
