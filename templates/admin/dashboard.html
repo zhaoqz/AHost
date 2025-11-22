@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - AI-App Host{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <div class="flex space-x-4">
+            <a href="/" class="text-indigo-600 hover:text-indigo-800 font-medium">View Site</a>
+            <a href="/admin/logout" class="text-red-600 hover:text-red-800 font-medium">Logout</a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">App Name</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Slug</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Author</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Views</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Created</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for app in apps %}
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{{ app.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                            <a href="/{{ app.slug }}" target="_blank" class="text-indigo-600 hover:underline">{{
+                                app.slug }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ app.author or 'Unknown' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ app.view_count }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">{{ app.created_at[:16] }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="/admin/edit/{{ app.slug }}"
+                                class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                            <form action="/admin/api/delete/{{ app.slug }}" method="POST" class="inline"
+                                onsubmit="return confirm('Are you sure you want to delete this app?');">
+                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-gray-500">No apps found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -129,4 +129,12 @@ class Database:
         conn.close()
         return [dict(row) for row in rows]
 
+    def delete_app(self, slug: str):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM apps WHERE slug = ?", (slug,))
+        cursor.execute("DELETE FROM comments WHERE app_slug = ?", (slug,))
+        conn.commit()
+        conn.close()
+
 db = Database()

@@ -17,6 +17,9 @@ app.include_router(admin.router)
 app.include_router(showcase.router)
 app.include_router(serve.router)
 
+from src.routes import management
+app.include_router(management.router)
+
 logger.info("Application started")
 
 if __name__ == "__main__":
