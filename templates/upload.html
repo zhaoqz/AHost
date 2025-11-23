@@ -3,8 +3,14 @@
 {% block title %}上传 AI 应用{% endblock %}
 
 {% block content %}
-<div class="glass rounded-2xl shadow-xl p-8 w-full max-w-md">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">托管您的 AI 应用</h1>
+<div class="glass rounded-2xl shadow-xl p-8 w-full max-w-md relative">
+    <!-- Back to Home -->
+    <a href="/" class="absolute top-4 left-4 text-gray-400 hover:text-indigo-600 transition" title="返回首页">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center mt-2">托管您的 AI 应用</h1>
 
     <form action="/api/upload" method="post" enctype="multipart/form-data" class="space-y-4">
         <div>

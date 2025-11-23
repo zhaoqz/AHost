@@ -3,7 +3,15 @@
 {% block title %}{{ app.name }} - AI 应用托管{% endblock %}
 
 {% block content %}
-<div class="glass rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
+<div class="glass rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row relative">
+    <!-- Back to Home -->
+    <a href="/"
+        class="absolute top-4 left-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-gray-600 hover:text-indigo-600 hover:bg-white transition shadow-sm"
+        title="返回首页">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
     <!-- Left Side: Info -->
     <div class="p-8 md:w-1/2 flex flex-col justify-center space-y-6">
         <div>
@@ -29,10 +37,10 @@
             <button onclick="navigator.clipboard.writeText(window.location.origin + '/{{ app.slug }}')"
                 class="p-3 rounded-xl border border-gray-300 hover:bg-gray-50 transition text-gray-600 flex items-center justify-center"
                 title="复制链接">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-8a2 2 0 012-2z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
             </button>
         </div>
