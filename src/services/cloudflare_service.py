@@ -1,4 +1,5 @@
-import httpx
+import urllib.request
+import json
 from src.config import config
 from src.utils.logger import logger
 
@@ -19,33 +20,31 @@ class CloudflareService:
             "Content-Type": "application/json"
         }
         
-        # Construct the file URL to purge
-        # Assuming the app is accessed via https://domain/slug
-        # If it's a specific file like index.html, we might need to purge that too or just the path
-        # User example: "https://a.104800.xyz/game.html"
-        # Our apps are at /slug which serves index.html. 
-        # Let's purge both /slug and /slug/ just in case, or whatever the canonical URL is.
-        # Based on user request, they want to update "html file".
-        # If the user accesses /slug, it's the html content.
-        
         file_url = f"https://{config.domain_name}/{slug}"
         
         payload = {
             "files": [file_url]
         }
+        
+        data = json.dumps(payload).encode('utf-8')
+        req = urllib.request.Request(url, data=data, headers=headers, method='POST')
 
         try:
-            async with httpx.AsyncClient() as client:
-                response = await client.post(url, headers=headers, json=payload)
+            # Since this is an async method but urllib is synchronous, 
+            # in a high-load async app we might want to run this in a thread executor.
+            # But for this low-frequency admin action, blocking briefly is acceptable.
+            # Or we can just wrap it in a simple try/except block.
+            
+            with urllib.request.urlopen(req) as response:
+                response_body = response.read().decode('utf-8')
+                result = json.loads(response_body)
                 
-            if response.status_code == 200:
-                result = response.json()
                 if result.get("success"):
                     logger.info(f"Successfully purged Cloudflare cache for {file_url}")
                 else:
                     logger.error(f"Failed to purge Cloudflare cache: {result.get('errors')}")
-            else:
-                logger.error(f"Cloudflare API error: {response.status_code} - {response.text}")
-                
+                    
+        except urllib.error.HTTPError as e:
+            logger.error(f"Cloudflare API error: {e.code} - {e.read().decode('utf-8')}")
         except Exception as e:
             logger.error(f"Exception during Cloudflare cache purge: {e}")
