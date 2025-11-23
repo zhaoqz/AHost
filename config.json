@@ -3,5 +3,8 @@
     "UPLOAD_DIR": "data/sites",
     "DB_PATH": "data/db/app.db",
     "LOG_LEVEL": "INFO",
-    "UPLOAD_PASSWORD": "admin"
+    "UPLOAD_PASSWORD": "admin",
+    "CF_ZONE_ID": "",
+    "CF_API_TOKEN": "",
+    "DOMAIN_NAME": "a.104800.xyz"
 }

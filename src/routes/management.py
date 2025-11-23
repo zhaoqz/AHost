@@ -80,3 +80,45 @@ async def logout():
     response = RedirectResponse(url="/admin")
     response.delete_cookie("admin_token")
     return response
+
+from src.services.file_service import FileService
+
+@router.get("/code/{slug}", response_class=HTMLResponse)
+async def edit_code_page(request: Request, slug: str):
+    token = request.cookies.get("admin_token")
+    if token != config.upload_password:
+        return RedirectResponse(url="/admin")
+        
+    app = db.get_app(slug)
+    if not app:
+        raise HTTPException(status_code=404, detail="App not found")
+    return templates.TemplateResponse("admin/edit_code.html", {"request": request, "app": app})
+
+@router.get("/api/code/{slug}")
+async def get_code(slug: str, request: Request):
+    token = request.cookies.get("admin_token")
+    if token != config.upload_password:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    try:
+        content = await FileService.get_html_content(slug)
+        return {"content": content}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/api/code/{slug}")
+async def save_code(
+    slug: str,
+    request: Request,
+    content: str = Form(...)
+):
+    token = request.cookies.get("admin_token")
+    if token != config.upload_password:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+        
+    try:
+        await FileService.save_html_content(slug, content)
+        return {"status": "success"}
+    except Exception as e:
+        logger.error(f"Failed to save code for {slug}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

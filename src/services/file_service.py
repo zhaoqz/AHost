@@ -6,6 +6,7 @@ from fastapi import UploadFile, HTTPException
 import aiofiles
 from src.config import config
 from src.utils.logger import logger
+from src.services.cloudflare_service import CloudflareService
 
 import time
 
@@ -42,6 +43,10 @@ class FileService:
                 raise HTTPException(status_code=400, detail="No file or HTML content provided")
             
             logger.info(f"Successfully saved upload for slug: {slug}")
+            
+            # Purge Cloudflare cache
+            await CloudflareService.purge_cache(slug)
+            
         except HTTPException:
             # Re-raise HTTP exceptions (like 400 Bad Request)
             if upload_dir.exists():
@@ -140,3 +145,35 @@ class FileService:
         finally:
             if temp_zip_path.exists():
                 os.remove(temp_zip_path)
+
+    @staticmethod
+    async def get_html_content(slug: str) -> str:
+        upload_dir = config.upload_dir / slug
+        file_path = upload_dir / "index.html"
+        
+        if not file_path.exists():
+            raise HTTPException(status_code=404, detail="HTML file not found")
+            
+        async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
+            return await f.read()
+
+    @staticmethod
+    async def save_html_content(slug: str, content: str):
+        upload_dir = config.upload_dir / slug
+        file_path = upload_dir / "index.html"
+        
+        if not upload_dir.exists():
+             raise HTTPException(status_code=404, detail="App directory not found")
+             
+        # Backup before saving
+        timestamp = int(time.time())
+        backup_path = upload_dir / f"index.html.bak.{timestamp}"
+        if file_path.exists():
+            shutil.copy2(str(file_path), str(backup_path))
+
+        async with aiofiles.open(file_path, 'w', encoding='utf-8') as f:
+            await f.write(content)
+            
+        # Purge Cloudflare cache
+        await CloudflareService.purge_cache(slug)
+

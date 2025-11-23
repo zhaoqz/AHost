@@ -51,4 +51,16 @@ class ConfigManager:
     def upload_password(self) -> str:
         return self.get("UPLOAD_PASSWORD", "admin")
 
+    @property
+    def cf_zone_id(self) -> str:
+        return self.get("CF_ZONE_ID", "")
+
+    @property
+    def cf_api_token(self) -> str:
+        return self.get("CF_API_TOKEN", "")
+
+    @property
+    def domain_name(self) -> str:
+        return self.get("DOMAIN_NAME", "a.104800.xyz")
+
 config = ConfigManager()

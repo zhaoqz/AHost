@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}编辑代码 - {{ app.name }}{% endblock %}
+
+{% block content %}
+<div class="glass rounded-2xl shadow-xl p-8 w-full max-w-4xl relative">
+    <!-- Back to Dashboard -->
+    <a href="/admin" class="absolute top-4 left-4 text-gray-400 hover:text-indigo-600 transition" title="返回管理面板">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+
+    <div class="flex justify-between items-center mb-6 mt-2">
+        <h1 class="text-2xl font-bold text-gray-800">编辑代码: {{ app.name }}</h1>
+        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-mono">{{ app.slug }}</span>
+    </div>
+
+    <div class="mb-4">
+        <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-medium text-gray-700">HTML 内容 (index.html)</label>
+            <span id="status-msg" class="text-sm font-medium transition-opacity duration-300 opacity-0"></span>
+        </div>
+        <textarea id="code-editor" rows="20"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition font-mono text-sm bg-gray-50"
+            spellcheck="false"></textarea>
+    </div>
+
+    <div class="flex items-center space-x-4 justify-end">
+        <button onclick="saveCode()"
+            class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-md flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+            </svg>
+            保存更改
+        </button>
+    </div>
+</div>
+
+<script>
+    const slug = "{{ app.slug }}";
+    const editor = document.getElementById('code-editor');
+    const statusMsg = document.getElementById('status-msg');
+
+    // Load initial content
+    async function loadContent() {
+        try {
+            const response = await fetch(`/admin/api/code/${slug}`);
+            if (response.status === 401) {
+                window.location.href = '/admin';
+                return;
+            }
+            const data = await response.json();
+            if (data.content) {
+                editor.value = data.content;
+            } else {
+                showStatus('加载失败', 'text-red-600');
+            }
+        } catch (err) {
+            console.error(err);
+            showStatus('加载出错', 'text-red-600');
+        }
+    }
+
+    async function saveCode() {
+        const content = editor.value;
+        showStatus('正在保存...', 'text-gray-600');
+
+        const formData = new FormData();
+        formData.append('content', content);
+
+        try {
+            const response = await fetch(`/admin/api/code/${slug}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                showStatus('保存成功！✨', 'text-green-600');
+            } else if (response.status === 401) {
+                window.location.href = '/admin';
+            } else {
+                const data = await response.json();
+                showStatus(`保存失败: ${data.detail}`, 'text-red-600');
+            }
+        } catch (err) {
+            console.error(err);
+            showStatus('保存出错', 'text-red-600');
+        }
+    }
+
+    function showStatus(msg, colorClass) {
+        statusMsg.textContent = msg;
+        statusMsg.className = `text-sm font-medium transition-opacity duration-300 ${colorClass}`;
+        statusMsg.style.opacity = '1';
+
+        if (msg.includes('成功')) {
+            setTimeout(() => {
+                statusMsg.style.opacity = '0';
+            }, 3000);
+        }
+    }
+
+    // Load content on page load
+    loadContent();
+</script>
+{% endblock %}

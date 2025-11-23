@@ -39,6 +39,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ app.view_count }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">{{ app.created_at[:16] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="/admin/code/{{ app.slug }}"
+                                class="text-green-600 hover:text-green-900 mr-4">Code</a>
                             <a href="/admin/edit/{{ app.slug }}"
                                 class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
                             <form action="/admin/api/delete/{{ app.slug }}" method="POST" class="inline"
