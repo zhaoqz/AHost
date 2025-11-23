@@ -74,6 +74,8 @@ async def upload_app(
             logger.info(f"Created new app: {slug}")
         
         return RedirectResponse(url=f"/i/{slug}", status_code=303)
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Upload failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))

@@ -42,6 +42,11 @@ class FileService:
                 raise HTTPException(status_code=400, detail="No file or HTML content provided")
             
             logger.info(f"Successfully saved upload for slug: {slug}")
+        except HTTPException:
+            # Re-raise HTTP exceptions (like 400 Bad Request)
+            if upload_dir.exists():
+                shutil.rmtree(upload_dir)
+            raise
         except Exception as e:
             # Cleanup on failure
             if upload_dir.exists():
