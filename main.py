@@ -4,7 +4,7 @@ from pathlib import Path
 from src.routes import admin, showcase, serve
 from src.utils.logger import logger
 
-app = FastAPI(title="AI-App Host Platform")
+app = FastAPI(title="AI 产品库")
 
 # Ensure static directory exists
 Path("static").mkdir(exist_ok=True)

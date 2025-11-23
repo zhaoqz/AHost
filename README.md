@@ -1,4 +1,4 @@
-# AI-App Host Platform 使用手册
+# AI 产品库 使用手册
 
 ## 1. 简介
 这是一个轻量级的 Web 平台，用于托管和展示 AI 生成的 HTML 页面。支持 Zip 和 HTML 文件上传，自动生成展示页和二维码。

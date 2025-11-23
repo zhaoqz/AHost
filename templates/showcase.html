@@ -32,7 +32,7 @@
         <div class="flex items-center space-x-4 pt-4">
             <a href="/{{ app.slug }}" target="_blank"
                 class="flex-1 bg-indigo-600 text-white text-center py-3 px-6 rounded-xl font-semibold shadow-lg hover:bg-indigo-700 transition transform hover:-translate-y-1">
-                验证解决方案 (Verify Solution) 🚀
+                试一试 🚀
             </a>
             <button onclick="navigator.clipboard.writeText(window.location.origin + '/{{ app.slug }}')"
                 class="p-3 rounded-xl border border-gray-300 hover:bg-gray-50 transition text-gray-600 flex items-center justify-center"
@@ -57,7 +57,7 @@
                 </div>
                 <div class="ml-3">
                     <p class="text-sm text-yellow-700">
-                        安全提示：本网站仅用于托管演示网页，请勿上传敏感数据。
+                        安全提示：本网站仅托管演示网页，请勿上传敏感数据。
                     </p>
                 </div>
             </div>
@@ -75,14 +75,14 @@
 
 <!-- Comments Section -->
 <div class="glass rounded-2xl shadow-xl p-8 w-full max-w-4xl mt-8">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">产品反馈与交流</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">反馈与交流</h2>
 
     <!-- Comment Form -->
     <form action="/api/comment/{{ app.slug }}" method="post" class="mb-8 space-y-4">
         <div class="flex flex-col md:flex-row gap-4">
-            <input type="text" name="author" placeholder="您的称呼 (Name)" required
+            <input type="text" name="author" placeholder="您的称呼" required
                 class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
-            <input type="text" name="content" placeholder="这个方案解决了您的问题吗？欢迎提出现实需求..." required
+            <input type="text" name="content" placeholder="解决了您的问题吗？欢迎提需求..." required
                 class="w-full md:w-2/3 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
             <button type="submit"
                 class="w-full md:w-auto px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium whitespace-nowrap">
@@ -102,7 +102,7 @@
             <p class="text-gray-700">{{ comment.content }}</p>
         </div>
         {% else %}
-        <p class="text-gray-500 text-center py-4">还没有人留言，快来发表你的独到见解吧！✨</p>
+        <p class="text-gray-500 text-center py-4">还没有人留言，欢迎吐槽提意见✨</p>
         {% endfor %}
     </div>
 </div>
