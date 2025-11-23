@@ -13,7 +13,7 @@
         </svg>
     </a>
     <!-- Left Side: Info -->
-    <div class="p-8 md:w-1/2 flex flex-col justify-center space-y-6">
+    <div class="px-8 pb-8 pt-16 md:w-1/2 flex flex-col justify-center space-y-6">
         <div>
             <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">{{ app.name }}</h1>
             <div class="flex flex-wrap items-center text-sm text-gray-500 mt-2 gap-4">
@@ -75,14 +75,14 @@
 
 <!-- Comments Section -->
 <div class="glass rounded-2xl shadow-xl p-8 w-full max-w-4xl mt-8">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">留言板 (Comments)</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">留言板</h2>
 
     <!-- Comment Form -->
     <form action="/api/comment/{{ app.slug }}" method="post" class="mb-8 space-y-4">
         <div class="flex flex-col md:flex-row gap-4">
-            <input type="text" name="author" placeholder="您的昵称 (Name)" required
+            <input type="text" name="author" placeholder="怎么称呼你？" required
                 class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
-            <input type="text" name="content" placeholder="写下您的评论... (Write a comment)" required
+            <input type="text" name="content" placeholder="觉得这个应用怎么样？聊聊你的看法..." required
                 class="w-full md:w-2/3 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
             <button type="submit"
                 class="w-full md:w-auto px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium whitespace-nowrap">
@@ -102,7 +102,7 @@
             <p class="text-gray-700">{{ comment.content }}</p>
         </div>
         {% else %}
-        <p class="text-gray-500 text-center py-4">暂无留言，快来抢沙发吧！</p>
+        <p class="text-gray-500 text-center py-4">还没有人留言，快来发表你的独到见解吧！✨</p>
         {% endfor %}
     </div>
 </div>
