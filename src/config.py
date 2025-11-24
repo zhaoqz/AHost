@@ -63,4 +63,14 @@ class ConfigManager:
     def domain_name(self) -> str:
         return self.get("DOMAIN_NAME", "a.104800.xyz")
 
+    @property
+    def iflow_api_key(self) -> str:
+        return self.get("IFLOW_API_KEY", "")
+
+    def update_iflow_key(self, key: str):
+        self._config["IFLOW_API_KEY"] = key
+        config_path = Path("config.json")
+        with open(config_path, "w") as f:
+            json.dump(self._config, f, indent=4)
+
 config = ConfigManager()

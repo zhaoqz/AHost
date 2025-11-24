@@ -79,3 +79,22 @@ async def upload_app(
     except Exception as e:
         logger.error(f"Upload failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/api/iflow-key")
+async def get_iflow_key():
+    return {"key": config.iflow_api_key}
+
+@router.post("/api/iflow-key")
+async def update_iflow_key(
+    key: str = Form(...),
+    password: str = Form(...)
+):
+    if password != config.upload_password:
+        raise HTTPException(status_code=401, detail="Invalid password")
+    
+    try:
+        config.update_iflow_key(key)
+        return {"status": "success", "key": key}
+    except Exception as e:
+        logger.error(f"Failed to update iflow key: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
