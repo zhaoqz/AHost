@@ -55,7 +55,7 @@
 
                 <!-- Share Button (Top Right) -->
                 <button
-                    onclick="openShareModal('{{ app.name }}', '{{ app.description or 'No description' }}', '{{ app.author or 'Unknown' }}', '{{ app.slug }}')"
+                    onclick='openShareModal({{ app.name | tojson }}, {{ (app.description or "No description") | tojson }}, {{ (app.author or "Unknown") | tojson }}, {{ app.slug | tojson }})'
                     class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm text-gray-400 hover:text-indigo-600 hover:shadow-md transition-all duration-300 z-20 opacity-100 transform hover:scale-110"
                     title="生成分享卡片">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -226,7 +226,7 @@
 </div>
 
 <script>
-    async function generateShareCard(name, desc, author, slug) {
+    async function openShareModal(name, desc, author, slug) {
         const container = document.getElementById('share-card');
         const nameEl = document.getElementById('card-app-name');
         const descEl = document.getElementById('card-app-desc');
