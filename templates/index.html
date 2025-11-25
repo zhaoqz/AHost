@@ -49,8 +49,8 @@
 
                 <!-- Sequential Number Badge -->
                 <div
-                    class="absolute top-0 left-0 bg-gray-100 text-gray-500 text-xs font-mono px-2 py-1 rounded-br-lg z-10 opacity-70 group-hover:opacity-100 transition">
-                    #{{ "%03d" | format(loop.index) }}
+                    class="absolute top-0 left-0 bg-indigo-600 text-white text-sm font-bold font-mono px-3 py-1.5 rounded-br-xl z-10 shadow-md opacity-90 group-hover:opacity-100 transition">
+                    NO.{{ "%03d" | format(apps|length - loop.index0) }}
                 </div>
 
                 <!-- Share Button (Top Right) -->
