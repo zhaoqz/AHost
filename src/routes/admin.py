@@ -15,7 +15,7 @@ def generate_slug(length=6):
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    apps = db.list_apps(sort_by="views")
+    apps = db.list_apps(sort_by="created_asc")
     return templates.TemplateResponse("index.html", {"request": request, "apps": apps})
 
 @router.get("/upload", response_class=HTMLResponse)

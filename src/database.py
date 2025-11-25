@@ -113,6 +113,8 @@ class Database:
         
         if sort_by == "views":
             order_by = "view_count DESC, created_at DESC"
+        elif sort_by == "created_asc":
+            order_by = "created_at ASC"
         else:
             order_by = "created_at DESC"
             

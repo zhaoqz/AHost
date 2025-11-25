@@ -20,6 +20,12 @@ app.include_router(admin.router)
 app.include_router(showcase.router)
 app.include_router(serve.router)
 
+from fastapi.responses import PlainTextResponse
+
+@app.get("/029dc93cef2873bec9f4b33dbf28d6ac.txt", response_class=PlainTextResponse)
+async def wechat_verify():
+    return "9ddf2eeaedd2be5c84577b229e14e6a193b52c5c"
+
 logger.info("Application started")
 
 if __name__ == "__main__":
